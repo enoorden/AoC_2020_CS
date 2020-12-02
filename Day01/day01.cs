@@ -5,7 +5,7 @@ namespace Day01
 {
     class day01
     {
-        static string[] input = File.ReadAllLines(@"..\..\..\input.txt");
+        static string[] input = File.ReadAllLines(@"..\..\..\input01.txt");
         static void Main(string[] args)
         {
             // part 1
