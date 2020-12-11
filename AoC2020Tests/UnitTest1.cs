@@ -1,7 +1,5 @@
-using System;
-using Xunit;
 using Day09;
-using Day11;
+using Xunit;
 
 namespace AoC2020Tests
 {

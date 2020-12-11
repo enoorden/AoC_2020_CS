@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Numerics;
 
 namespace Day03
 {
@@ -10,14 +9,14 @@ namespace Day03
 
         static void Main(string[] args)
         {
-           
-            Console.WriteLine($"Part1: {TrySlope(input,3,1)}");
 
-            long part2 = (long) TrySlope(input, 1, 1) *
-                         (long) TrySlope(input, 3, 1) *
-                         (long) TrySlope(input, 5, 1) *
-                         (long) TrySlope(input, 7, 1) *
-                         (long) TrySlope(input, 1, 2);
+            Console.WriteLine($"Part1: {TrySlope(input, 3, 1)}");
+
+            long part2 = (long)TrySlope(input, 1, 1) *
+                         (long)TrySlope(input, 3, 1) *
+                         (long)TrySlope(input, 5, 1) *
+                         (long)TrySlope(input, 7, 1) *
+                         (long)TrySlope(input, 1, 2);
             Console.WriteLine($"Part1: {part2}");
         }
 

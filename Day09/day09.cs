@@ -17,7 +17,7 @@ namespace Day09
             {
                 n = input[i];
                 var r = input[(i - back)..i];
-                
+
                 if (RangeContainsSum(r, n)) continue;
                 Console.WriteLine($"Part1: {n}");
                 break;

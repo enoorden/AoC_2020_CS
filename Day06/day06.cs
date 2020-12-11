@@ -8,7 +8,7 @@ namespace Day06
     class day06
     {
         static string[] input = File.ReadAllLines(@"..\..\..\input06.txt");
-        static List<List<string>> groups = new List<List<string>> ();
+        static List<List<string>> groups = new List<List<string>>();
 
         static void Main(string[] args)
         {
@@ -43,7 +43,7 @@ namespace Day06
                 {
                     //check if occurence of all chars in first entry against joined answer
                     //if occurence is same as length of group array then everyone answered that question yes
-                    if (string.Join("", g).Count(x => x == c) == g.Count) {total++;}
+                    if (string.Join("", g).Count(x => x == c) == g.Count) { total++; }
                 }
             }
             Console.WriteLine($"Part2: {total}");

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualBasic;
 
 namespace Day05
 {
@@ -24,7 +23,7 @@ namespace Day05
             }
 
             Console.WriteLine($"Part1: {max}");
-            
+
             //part 2
             for (int r = 1; r <= 126; r++)
             {

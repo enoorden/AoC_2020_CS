@@ -12,7 +12,7 @@ namespace Day10
         {
             Array.Sort(input);
             var sorted = input.ToList().Prepend(0).Append(input[^1] + 3).ToArray();
-   
+
             //Part1
             int step1 = 0;
             int step3 = 0;

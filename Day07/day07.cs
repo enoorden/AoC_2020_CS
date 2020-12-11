@@ -8,7 +8,7 @@ namespace Day07
     class day07
     {
         static string[] input = File.ReadAllLines(@"..\..\..\input07.txt");
-        
+
         static void Main(string[] args)
         {
             var rules = GetRules(input);
@@ -18,7 +18,7 @@ namespace Day07
             var totalBags = GetTotalBags(rules, "shiny gold");
             Console.WriteLine($"Part2: {totalBags}");
         }
-        
+
         static Dictionary<string, Dictionary<string, int>> GetRules(string[] input)
         {
             var rules = new Dictionary<string, Dictionary<string, int>>();
@@ -37,7 +37,7 @@ namespace Day07
 
             return rules;
         }
-        
+
         private static List<string> GetBags(Dictionary<string, Dictionary<string, int>> rules, string bagColor, List<string> outerbags = null)
         {
             outerbags ??= new List<string>();
@@ -56,7 +56,8 @@ namespace Day07
             int total = 0;
             var a = rules[bagColor];
 
-            foreach (var i in a) {
+            foreach (var i in a)
+            {
                 total += i.Value + (i.Value * GetTotalBags(rules, i.Key));
             }
 

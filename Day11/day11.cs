@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,35 +8,23 @@ namespace Day11
     {
         private static string[] input = File.ReadAllLines(@"..\..\..\input11.txt");
         //public static string[] input = File.ReadAllLines(@"..\..\..\test.txt");
+
         public static bool change = true;
 
         static void Main(string[] args)
         {
-            char[][] fp = input.Select(item => item.ToArray()).ToArray();
-
-            
+            var fp = input.Select(item => item.ToArray()).ToArray();
             while (change)
             {
                 var newfp = ProcessRules(fp);
                 {
-                    foreach (var s in newfp)
-                    {
-                        Console.WriteLine(s);
-                    }
-
-                    Console.WriteLine("--");
                     fp = CopyArrayLinq(newfp);
                 }
             }
             var occ = 0;
-            foreach (var s in fp)
-            {
-                occ += s.Count(x => x == '#');
-            }
-           Console.WriteLine("hier");
+            foreach (var s in fp) occ += s.Count(x => x == '#');
             Console.WriteLine(occ);
         }
-
 
         public static char[][] ProcessRules(char[][] fp)
         {
@@ -92,15 +79,15 @@ namespace Day11
         {
             int occ = 0;
             if (TrySeat(fp, x - 1, y - 1) == '#') occ++;
-            if (TrySeat(fp, x - 1,     y) == '#') occ++;
+            if (TrySeat(fp, x - 1, y) == '#') occ++;
             if (TrySeat(fp, x - 1, y + 1) == '#') occ++;
-            if (TrySeat(fp, x    , y - 1) == '#') occ++;
+            if (TrySeat(fp, x, y - 1) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(fp, x    , y + 1) == '#') occ++;
+            if (TrySeat(fp, x, y + 1) == '#') occ++;
             if (occ > 3) return true;
             if (TrySeat(fp, x + 1, y - 1) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(fp, x + 1,     y) == '#') occ++;
+            if (TrySeat(fp, x + 1, y) == '#') occ++;
             if (occ > 3) return true;
             if (TrySeat(fp, x + 1, y + 1) == '#') occ++;
             return occ > 3;
@@ -108,14 +95,8 @@ namespace Day11
 
         public static char TrySeat(char[][] fp, int x, int y)
         {
-            try
-            {
-                return fp[x][y];
-            }
-            catch
-            {
-                return '.';
-            }
+            if (x < 0 || y < 0 || x >= fp.Length || y >= fp[x].Length) return '.';
+            return fp[x][y];
         }
 
         static char[][] CopyArrayLinq(char[][] source)
