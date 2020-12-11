@@ -7,16 +7,18 @@ namespace Day11
 {
     public class day11
     {
-        //private static string[] fp = File.ReadAllLines(@"..\..\..\input11.txt");
-        public static string[] fp = File.ReadAllLines(@"..\..\..\test.txt");
-        
+        private static string[] input = File.ReadAllLines(@"..\..\..\input11.txt");
+        //public static string[] input = File.ReadAllLines(@"..\..\..\test.txt");
+        public static bool change = true;
+
         static void Main(string[] args)
         {
-            var equal = false;
-            while (!equal)
+            char[][] fp = input.Select(item => item.ToArray()).ToArray();
+
+            
+            while (change)
             {
                 var newfp = ProcessRules(fp);
-                if (!newfp.SequenceEqual(fp))
                 {
                     foreach (var s in newfp)
                     {
@@ -24,86 +26,101 @@ namespace Day11
                     }
 
                     Console.WriteLine("--");
-                    Array.Copy(newfp, fp, newfp.Length);
-                }
-                else
-                {
-                    equal = true;
-                    var occ = 0;
-                    foreach (var s in newfp)
-                    {
-                        occ += s.Count(x => x == '#');
-                    }
-
-                    Console.WriteLine(occ);
+                    fp = CopyArrayLinq(newfp);
                 }
             }
+            var occ = 0;
+            foreach (var s in fp)
+            {
+                occ += s.Count(x => x == '#');
+            }
+           Console.WriteLine("hier");
+            Console.WriteLine(occ);
         }
 
 
-        public static string[] ProcessRules(string[] floorplan)
+        public static char[][] ProcessRules(char[][] fp)
         {
-            var newPlan = new List<string>();
-            for (int x = 0; x < floorplan.Length; x++)
+            change = false;
+            var newPlan = CopyArrayLinq(fp);
+            for (var x = 0; x < fp.Length; x++)
             {
-                var newAisle = new List<char> ();
-                for (int y = 0; y < floorplan[x].Length; y++)
+                for (var y = 0; y < fp[x].Length; y++)
                 {
-                    switch (floorplan[x][y])
+                    switch (fp[x][y])
                     {
                         case '.':
-                            newAisle.Add('.');
+                            newPlan[x][y] = '.';
                             continue;
                         case '#':
-                            newAisle.Add(TooCrowded(floorplan, x, y) ? 'L' : '#');
+                            if (TooCrowded(fp, x, y))
+                            {
+                                newPlan[x][y] = 'L';
+                                change = true;
+                            }
+                            else
+                            {
+                                newPlan[x][y] = '#';
+                            }
                             break;
                         case 'L':
-                            newAisle.Add(AllEmpty(floorplan, x, y) ? '#' : 'L');
+                            if (AllEmpty(fp, x, y))
+                            {
+                                newPlan[x][y] = '#';
+                                change = true;
+                            }
+                            else
+                            {
+                                newPlan[x][y] = 'L';
+                            }
                             break;
                     }
                 }
-                newPlan.Add(string.Join("", newAisle));
             }
-
-            return newPlan.ToArray();
+            return newPlan;
         }
 
-        public static bool AllEmpty(string[] f, int x, int y)
+        public static bool AllEmpty(char[][] fp, int x, int y)
         {
-            if ((TrySeat(f, x - 1, y - 1) != '#') && (TrySeat(f, x - 1, y) != '#') &&
-                (TrySeat(f, x - 1, y + 1) != '#') && (TrySeat(f, x, y - 1) != '#') &&
-                (TrySeat(f, x, y + 1) != '#') && (TrySeat(f, x + 1, y - 1) != '#') &&
-                (TrySeat(f, x + 1, y) != '#') && (TrySeat(f, x + 1, y + 1) != '#')) return true;
+            if ((TrySeat(fp, x - 1, y - 1) != '#') && (TrySeat(fp, x - 1, y) != '#') &&
+                (TrySeat(fp, x - 1, y + 1) != '#') && (TrySeat(fp, x, y - 1) != '#') &&
+                (TrySeat(fp, x, y + 1) != '#') && (TrySeat(fp, x + 1, y - 1) != '#') &&
+                (TrySeat(fp, x + 1, y) != '#') && (TrySeat(fp, x + 1, y + 1) != '#')) return true;
             return false;
         }
-        public static bool TooCrowded(string[] f, int x, int y)
+        public static bool TooCrowded(char[][] fp, int x, int y)
         {
             int occ = 0;
-            if (TrySeat(f, x - 1, y - 1) == '#') occ++;
-            if (TrySeat(f, x - 1,     y) == '#') occ++;
-            if (TrySeat(f, x - 1, y + 1) == '#') occ++;
-            if (TrySeat(f, x    , y - 1) == '#') occ++;
+            if (TrySeat(fp, x - 1, y - 1) == '#') occ++;
+            if (TrySeat(fp, x - 1,     y) == '#') occ++;
+            if (TrySeat(fp, x - 1, y + 1) == '#') occ++;
+            if (TrySeat(fp, x    , y - 1) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(f, x    , y + 1) == '#') occ++;
+            if (TrySeat(fp, x    , y + 1) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(f, x + 1, y - 1) == '#') occ++;
+            if (TrySeat(fp, x + 1, y - 1) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(f, x + 1,     y) == '#') occ++;
+            if (TrySeat(fp, x + 1,     y) == '#') occ++;
             if (occ > 3) return true;
-            if (TrySeat(f, x + 1, y + 1) == '#') occ++;
+            if (TrySeat(fp, x + 1, y + 1) == '#') occ++;
             return occ > 3;
         }
 
-        public static char TrySeat(string[] floorplan, int x, int y)
+        public static char TrySeat(char[][] fp, int x, int y)
         {
             try
             {
-                return floorplan[x][y];
+                return fp[x][y];
             }
             catch
             {
                 return '.';
             }
+        }
+
+        static char[][] CopyArrayLinq(char[][] source)
+        {
+            return source.Select(s => s.ToArray()).ToArray();
         }
     }
 }
