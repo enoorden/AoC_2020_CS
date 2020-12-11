@@ -1,10 +1,11 @@
 using System;
 using Xunit;
 using Day09;
+using Day11;
 
 namespace AoC2020Tests
 {
-    public class UnitTest1
+    public class day09tests
     {
         long[] Range = new long[] { 1, 2, 3, 4, 5 };
 
@@ -32,5 +33,10 @@ namespace AoC2020Tests
             var result = day09.RangeContainsSum(Range, 2);
             Assert.False(result, "should be false");
         }
+    }
+
+    public class day11tests
+    {
+
     }
 }
